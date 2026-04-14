@@ -29,9 +29,9 @@
  *    <thebomb-badge size="lg"></thebomb-badge>             ← force a specific size
  *
  *  ── RESPONSIVE BEHAVIOR (auto, unless `size` is set) ──────────────────────
- *    Mobile small  (≤374px)  → font 9px,  short label "by TheBomb®",
+ *    Mobile small  (≤374px)  → font 9px,  short label "Website Design by TheBomb®",
  *                              hides reveal text on hover (space-constrained).
- *    Mobile large  (375–639) → font 10px, short label "by TheBomb® · {location}".
+ *    Mobile large  (375–639) → font 10px, short label "Website Design by TheBomb®".
  *    Tablet        (640–1023)→ font 10px, full label, reveal enabled.
  *    Desktop       (≥1024)   → font 11px, full label, reveal enabled, larger padding.
  *
@@ -72,6 +72,9 @@
  *  ── VERSION ───────────────────────────────────────────────────────────────
  *    v2.0.0  — Responsive across mobile small/large, tablet, desktop.
  *              Added `compact`, `size`, expanded LLM guidance comments.
+ *    v2.1.0  — Short label now reads "Website Design by TheBomb®" on mobile
+ *              (was "by TheBomb®"). Host shrinks to parent width on narrow
+ *              viewports so the badge no longer clips off-screen.
  * ============================================================================
  */
 (() => {
@@ -87,6 +90,8 @@
          Inner layout lives on .badge so it can flex with modifiers. */
       :host {
         display: inline-block;
+        max-width: 100%;
+        box-sizing: border-box;
         font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         /* CSS custom properties — override from outside for light tweaks. */
         --tb-border: #e2e8f0;
@@ -143,6 +148,7 @@
         transition: background-color 200ms ease, border-color 200ms ease;
         cursor: pointer;
         max-width: 100%;
+        box-sizing: border-box;
       }
       .badge:hover {
         background: var(--tb-bg-hover);
@@ -370,7 +376,7 @@
       // Two label variants — CSS switches them based on breakpoint + `compact`.
       //   short: used on small screens and when [compact] is present
       //   full:  used on tablet+ when [compact] is NOT present
-      shortLabel.innerHTML = `by TheBomb&reg;`;
+      shortLabel.innerHTML = `Website Design by TheBomb&reg;`;
       fullLabel.innerHTML  = `Website Development by TheBomb&reg; &middot; ${locationAttr}`;
 
       // Attach UTM params so we can attribute referral traffic back to this
