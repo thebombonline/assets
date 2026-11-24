@@ -1,3 +1,4 @@
+# Installed in every thebombonline repo by thebombonline/claude-review-sync: change it there, not here.
 name: Claude Code
 on:
   issue_comment:
@@ -6,7 +7,8 @@ on:
     types: [created]
 jobs:
   claude:
-    if: contains(github.event.comment.body, '@claude')
+    # A person asking, not a bot: the review's own summary says "@claude fix the P1s" as a how-to.
+    if: contains(github.event.comment.body, '@claude') && !endsWith(github.event.comment.user.login, '[bot]')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
